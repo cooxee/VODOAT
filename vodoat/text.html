@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            var state       = [0, 1, 1];
+            var coordinatex = [500, 470, 420];
+            var coordinatey = [170, 137, 107];
+	   //var coordinatex = [540, 500, 470];
+            //var coordinatey = [256, 170, 137];
+ 
+            $(document).ready(setup);
+            
+            function setup(){
+                setInterval(function(){init();},6000);
+            }
+            
+            function init(){
+		var file = "http://192.168.1.2/gettext.php";
+		$.ajax({
+                url: file,
+                success: function(data) {
+                    var temp = data.split(',');
+                    state = temp;
+                    //alert(state);
+                    setcanvas();
+                    draw();
+                    }
+                });
+                
+            }
+            
+            function setcanvas(){
+                if (canvas.getContext) {
+                    var context = canvas.getContext("2d");
+                    var img=new Image(); //creates a variable for a new image
+             
+                    //img.src= “image.png” // specifies the location of the image
+                    img.src = "http://192.168.1.2/empty.jpg";
+                    context.drawImage(img,0,0);
+                }
+            }
+            
+            function draw(){
+                //alert(state.length);
+                var text = " ";
+                if(state[0]== 1){
+                    text += "spot 1 is taken; ";
+                }
+                if(state[1]== 1){
+                    text += "spot 2 is taken; ";
+                }
+                if(state[2]== 1){
+                    text += "spot 3 is taken";
+                }
+                $('#hi').html(text);
+                if (canvas.getContext) {
+                    var context = canvas.getContext("2d");
+                    imgcar = new Image();
+                    imgcar.src = "scobby.png";
+                    
+                    
+                for(var i=0;i<state.length;i++){
+                    if(state[i]== 1){
+                        context.drawImage(imgcar, coordinatex[i], coordinatey[i]);
+                    }
+                    
+                }
+
+                    
+                    
+                    
+                }
+                
+                
+                
+            }
+            
+        </script>
+    </head>
+    <body>
+        <div id="hi"></div>
+        
+        <canvas id="canvas" width="675" height="345">
+     <p>This example requires a browser that supports the
+     <a href="http://www.w3.org/html/wg/html5/">HTML5</a> 
+     &lt;canvas&gt; feature.</p>
+   </canvas>
+	<div id="hi" style="color:red !important;"></div>
+    </body>
+</html>

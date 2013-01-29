@@ -1,0 +1,5 @@
+setting.txt:
+    // Is read by data_sampler to cut either positive or negative
+    // reading the coordinates from the coordinates.txt
+    1. URL
+    2. Positive - 1; Negative - 0
